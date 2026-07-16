@@ -50,4 +50,4 @@ No multi-byte sequences (arrow keys, function keys, mouse reports) — only sing
 
 ## License
 
-[MIT](LICENSE).
+[MIT](LICENSE)
