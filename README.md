@@ -32,9 +32,11 @@ task build
 hijackey [srcKey=dstKey ...] <command> [args...]
 ```
 
-A key is a single ASCII character (`d`, `U`, ...) or a named key: `space`, `tab`, `enter`, `backspace`, `esc`, `eq` (`=`).
+A key is a single ASCII character (`d`, `U`, ...) or a named key: `space`,
+`tab`, `enter`, `backspace`, `esc`, `eq` (`=`).
 
-`hijackey --version` (or `-v`) prints the version and exits; `--help` (or `-h`) prints this usage and exits.
+`hijackey --version` (or `-v`) prints the version and exits; `--help` (or
+`-h`) prints this usage and exits.
 
 ## Alias
 
@@ -45,7 +47,9 @@ leaf --width 80 README.md
 
 ## Limitations
 
-No multi-byte sequences (arrow keys, function keys, mouse reports) — only single raw bytes. Remapping `esc` can break arrow keys, which also start with ESC.
+No multi-byte sequences (arrow keys, function keys, mouse reports) — only
+single raw bytes. Remapping `esc` can break arrow keys, which also start
+with ESC.
 
 ## License
 
