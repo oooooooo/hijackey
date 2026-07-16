@@ -17,7 +17,13 @@ Unix only (macOS/Linux), via [creack/pty](https://github.com/creack/pty).
 brew install oooooooo/tap/hijackey
 ```
 
-Or
+Or, with a Go toolchain:
+
+```bash
+go install github.com/oooooooo/hijackey@latest
+```
+
+Or, build from source:
 
 ```bash
 git clone https://github.com/oooooooo/hijackey.git
