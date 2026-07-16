@@ -27,8 +27,14 @@ Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`, `build`,
 
 The subject says *what* changed; the body must say *why* — the motivating
 problem, constraint, prior behavior, or decision. A body that only restates
-the diff in prose is not acceptable; if you can't say why, the subject line
-alone is enough and the body should be omitted rather than padded.
+the diff in prose is not acceptable.
+
+For a genuinely trivial change with no real motivation beyond itself
+(formatting, a typo fix), it's fine to omit the body. But if the change is
+non-trivial and you don't actually know the why, don't guess and don't
+silently omit it — ask the user what the why is before writing the commit.
+A fabricated or missing rationale is worse than pausing to ask, since
+`git log` is how intent gets recovered later.
 
 Good:
 
@@ -53,5 +59,7 @@ Added a signal.Notify call for SIGWINCH and forward it to the child.
   subject line itself must still be accurate — don't stretch "why" prose
   onto something that has none.
 - This overrides the built-in `conventional-commits` skill for this repo
-  only; the "always include why" body requirement is specific to this
-  project and not assumed elsewhere.
+  only; the "always include why, ask if unknown" requirement is specific
+  to this project and not assumed elsewhere.
+- Pairs with [[code-comments]], which has the same ask-don't-guess rule
+  for source comments.
