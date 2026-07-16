@@ -75,18 +75,21 @@ jobs:
             --title "${{ steps.version.outputs.new_tag }}" \
             --generate-notes
 
-      - name: Update Formula and commit
+      - name: Update Formula in homebrew-tap
+        env:
+          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
         run: |
           set -euo pipefail
 
           new_tag="${{ steps.version.outputs.new_tag }}"
           sha="${{ github.sha }}"
 
-          sed -i "s/tag:      \".*\"/tag:      \"${new_tag}\"/" Formula/hijackey.rb
-          sed -i "s/revision: \".*\"/revision: \"${sha}\"/" Formula/hijackey.rb
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/oooooooo/homebrew-tap.git" tap
+          sed -i "s/tag:      \".*\"/tag:      \"${new_tag}\"/" tap/Formula/hijackey.rb
+          sed -i "s/revision: \".*\"/revision: \"${sha}\"/" tap/Formula/hijackey.rb
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Formula/hijackey.rb
-          git commit -m "chore: release ${new_tag} [skip ci]"
-          git push origin HEAD:main
+          git -C tap config user.name "github-actions[bot]"
+          git -C tap config user.email "github-actions[bot]@users.noreply.github.com"
+          git -C tap add Formula/hijackey.rb
+          git -C tap commit -m "chore: release ${new_tag} [skip ci]"
+          git -C tap push origin HEAD:main

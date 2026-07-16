@@ -14,8 +14,7 @@ While [leaf](https://github.com/rivolink/leaf) runs, `space` is `d` and `b` is `
 Unix only (macOS/Linux), via [creack/pty](https://github.com/creack/pty).
 
 ```bash
-brew tap oooooooo/hijackey https://github.com/oooooooo/hijackey.git
-brew install oooooooo/hijackey/hijackey
+brew install oooooooo/tap/hijackey
 ```
 
 Or
