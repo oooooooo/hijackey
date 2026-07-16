@@ -1,5 +1,5 @@
 class Hijackey < Formula
-  desc "Hijack single-character keystrokes before they reach a command running under a pty"
+  desc "Hijack keystrokes for CLIs that won't let you rebind them"
   homepage "https://github.com/oooooooo/hijackey"
   url "https://github.com/oooooooo/hijackey.git",
       using:    :git,

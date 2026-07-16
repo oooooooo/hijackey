@@ -1,17 +1,17 @@
 # hijackey
 
-Hijack single-character keystrokes before they reach a command running under a pty.
+Hijack keystrokes for CLIs that won't let you rebind them.
 
 ```bash
 hijackey space=d b=u leaf README.md
 hijackey q=esc some-cli
 ```
 
-While `leaf` runs, `space` is `d` and `b` is `u`.
+While [leaf](https://github.com/rivolink/leaf) runs, `space` is `d` and `b` is `u`.
 
 ## Install
 
-Unix only (macOS/Linux), via `github.com/creack/pty`.
+Unix only (macOS/Linux), via [creack/pty](https://github.com/creack/pty).
 
 ```bash
 brew tap oooooooo/hijackey https://github.com/oooooooo/hijackey.git
