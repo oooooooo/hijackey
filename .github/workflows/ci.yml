@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+      - uses: arduino/setup-task@v3
+        with:
+          version: 3.x
+      - run: task test
+
+  release:
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+
+      - name: Compute next version and tag
+        id: version
+        run: |
+          set -euo pipefail
+
+          git fetch --tags
+          last_tag=$(git tag --list 'v*' --sort=-v:refname | head -n1)
+          last_tag=${last_tag:-v0.0.0}
+          IFS='.' read -r major minor patch <<< "${last_tag#v}"
+          new_tag="v${major}.${minor}.$((patch + 1))"
+          echo "new_tag=${new_tag}" >> "$GITHUB_OUTPUT"
+
+          git tag "$new_tag" "${{ github.sha }}"
+          git push origin "$new_tag"
+
+      - name: Build release binaries
+        run: |
+          set -euo pipefail
+
+          mkdir -p dist
+          for platform in linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
+            os=${platform%/*}
+            arch=${platform#*/}
+            CGO_ENABLED=0 GOOS="$os" GOARCH="$arch" \
+              go build -ldflags "-X main.version=${{ steps.version.outputs.new_tag }}" \
+              -o "dist/hijackey_${os}_${arch}" .
+          done
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh release create "${{ steps.version.outputs.new_tag }}" dist/* \
+            --title "${{ steps.version.outputs.new_tag }}" \
+            --generate-notes
+
+      - name: Update Formula and commit
+        run: |
+          set -euo pipefail
+
+          new_tag="${{ steps.version.outputs.new_tag }}"
+          sha="${{ github.sha }}"
+
+          sed -i "s/tag:      \".*\"/tag:      \"${new_tag}\"/" Formula/hijackey.rb
+          sed -i "s/revision: \".*\"/revision: \"${sha}\"/" Formula/hijackey.rb
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Formula/hijackey.rb
+          git commit -m "chore: release ${new_tag} [skip ci]"
+          git push origin HEAD:main
