@@ -11,7 +11,9 @@ While [leaf](https://github.com/rivolink/leaf) runs, `space` is `d` and `b` is `
 
 ## Install
 
-Unix only (macOS/Linux), via [creack/pty](https://github.com/creack/pty).
+Unix only, via [creack/pty](https://github.com/creack/pty).
+
+macOS/Linux, via [Homebrew](https://brew.sh):
 
 ```bash
 brew install oooooooo/tap/hijackey
