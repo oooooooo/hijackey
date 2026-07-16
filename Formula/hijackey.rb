@@ -10,7 +10,7 @@ class Hijackey < Formula
   depends_on "go" => :build
 
   def install
-    system "go", "build", "-o", bin/"hijackey", "."
+    system "go", "build", "-ldflags", "-X main.version=v#{version}", "-o", bin/"hijackey", "."
   end
 
   test do
