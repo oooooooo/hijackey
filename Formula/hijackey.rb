@@ -3,8 +3,8 @@ class Hijackey < Formula
   homepage "https://github.com/oooooooo/hijackey"
   url "https://github.com/oooooooo/hijackey.git",
       using:    :git,
-      tag:      "v0.1.0",
-      revision: "e2f8fd173f77d0f49e196fc0a81c9192a7bd75b8"
+      tag:      "v0.1.1",
+      revision: "879166c0e2f668f69225e4f23d3f4332f78b773a"
   license "MIT"
 
   depends_on "go" => :build
