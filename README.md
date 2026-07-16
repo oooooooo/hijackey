@@ -11,7 +11,7 @@ While [leaf](https://github.com/rivolink/leaf) runs, `space` is `d` and `b` is `
 
 ## Install
 
-Unix only, via [creack/pty](https://github.com/creack/pty).
+Unix only — [creack/pty](https://github.com/creack/pty) has no Windows implementation.
 
 macOS/Linux, via [Homebrew](https://brew.sh):
 
