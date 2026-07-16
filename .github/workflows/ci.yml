@@ -74,8 +74,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          commit_message=$(git log -1 --pretty=%B "${{ github.sha }}")
           gh release create "${{ steps.version.outputs.new_tag }}" dist/* \
             --title "${{ steps.version.outputs.new_tag }}" \
+            --notes "$commit_message" \
             --generate-notes
 
       - name: Update Formula in homebrew-tap
